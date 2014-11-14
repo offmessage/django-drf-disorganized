@@ -19,7 +19,7 @@ class DisorganizedModelViewSet(ModelViewSet):
         pk = self.kwargs.get(self.pk_url_kwarg, None)
         
         if pk is not None:
-            encoder_key = self.serializer_class.Meta.model._meta.verbose_name
+            encoder_key = queryset.model._meta.verbose_name
             encoder = UrlEncoder(key=encoder_key)
             searchfor = encoder.decode_url(pk)
             queryset = queryset.filter(pk=searchfor)

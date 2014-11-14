@@ -22,10 +22,11 @@ class DisorganizedHyperlinkedSerializerOptions(HyperlinkedModelSerializerOptions
                    "parameter, they only work with the default pk.")
             raise ImproperlyConfigured('Disorganized classes do not take a lookup_field')
         super(DisorganizedHyperlinkedSerializerOptions, self).__init__(meta)
-        self.encoder = getattr(meta, 'encoder', None)
-        if self.encoder is None:
-            encoder_key = self.model._meta.verbose_name
-            self.encoder = UrlEncoder(key=encoder_key)
+        encoder = getattr(meta, 'encoder', None)
+        if encoder is not None:
+            raise ImproperlyConfigured("Do not define your own encoder")
+        encoder_key = self.model._meta.verbose_name
+        self.encoder = UrlEncoder(key=encoder_key)
         
         
 class DisorganizedHyperlinkedModelSerializer(HyperlinkedModelSerializer):
@@ -47,7 +48,7 @@ class DisorganizedHyperlinkedModelSerializer(HyperlinkedModelSerializer):
             url_field = self._hyperlink_identify_field_class(
                 view_name=self.opts.view_name,
                 lookup_field=self.opts.lookup_field,
-                encoder=self.opts.encoder
+                encoder=self.opts.encoder,
             )
             ret = self._dict_class()
             ret[self.opts.url_field_name] = url_field
@@ -64,7 +65,6 @@ class DisorganizedHyperlinkedModelSerializer(HyperlinkedModelSerializer):
             'queryset': related_model._default_manager,
             'view_name': self._get_default_view_name(related_model),
             'many': to_many,
-            'encoder': self.opts.encoder,
         }
 
         if model_field:
@@ -78,4 +78,4 @@ class DisorganizedHyperlinkedModelSerializer(HyperlinkedModelSerializer):
             kwargs['lookup_field'] = self.opts.lookup_field
 
         return self._hyperlink_field_class(**kwargs)
-
+    
