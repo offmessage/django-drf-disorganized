@@ -7,8 +7,6 @@ from django.http import Http404
 
 from rest_framework.viewsets import ModelViewSet
 
-from .encoder import UrlEncoder
-
 
 class DisorganizedModelViewSet(ModelViewSet):
     
@@ -22,7 +20,7 @@ class DisorganizedModelViewSet(ModelViewSet):
             try:
                 encoder = self.serializer_class.Meta.encoder
             except AttributeError:
-                raise AttributeError('DisorganizedModelViewSet class requires an \'encoder\' option')
+                raise AttributeError("DisorganizedModelViewSet class requires an 'encoder' option")
             searchfor = encoder.decode_url(pk)
             queryset = queryset.filter(pk=searchfor)
         

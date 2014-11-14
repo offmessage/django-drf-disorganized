@@ -18,6 +18,7 @@ setup(
     url='https://github.com/offmessage/django-drf-disorganized',
     author='Andy Theyers',
     author_email='andy.theyers@isotoma.com',
+    install_requires=['djangorestframework',],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
@@ -25,7 +26,6 @@ setup(
         'License :: OSI Approved :: Apache License 2.0',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        # Replace these appropriately if you are stuck on Python 2.
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Topic :: Internet :: WWW/HTTP',
