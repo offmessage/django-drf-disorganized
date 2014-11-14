@@ -1,0 +1,32 @@
+treeprng README
+alpha-test version 
+
+Repeatable virtual trees of pseudorandom numbers.
+
+Documentation and commentary here:
+    https://github.com/switham/treeprng/wiki
+
+Copyright (c) 2013-2014 Steve Witham.  All rights reserved.  
+treeprng is available under a BSD license, whose full text is at
+    https://github.com/switham/treeprng/blob/master/LICENSE
+
+# WARNING: You may have noticed that this code calls a cryptographic hash 
+# function. That does NOT mean this code is secure. treeprng is NOT a 
+# cryptographic pseudorandom number generator. Do NOT use it in a crypto 
+# or security-sensitive application.
+
+CURRENT STATUS:
+    2014-01-23: Merged no_mersenne back to master (fast-forward).
+                Made master the current branch on github.
+    2014-01-22: The code in the new no_mersenne branch seems to work.
+                The documentation in the wiki is pretty good.
+
+treeprng is "in alpha", meaning I would like feedback about the
+approach, the API, the implementation, and the documentation.
+Existing comments and information about commenting are here:
+    https://github.com/switham/treeprng/wiki/Critique
+
+In any case if you would like to comment or say hi, I'm
+   Steve Witham <treeprng at mac-guyver dot com>
+
+Jan. 22, 2014
