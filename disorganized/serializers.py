@@ -3,29 +3,29 @@ serializers.py
 ==============
 """
 
-from rest_framework.serializers import HyperlinkedModelSerializer as DRFSerializer
-from rest_framework.serializers import HyperlinkedModelSerializerOptions as DRFOptions
+from rest_framework.serializers import HyperlinkedModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializerOptions
 
 from .encoder import UrlEncoder
-from .relations import HyperlinkedIdentityField
-from .relations import HyperlinkedRelatedField
+from .relations import DisorganizedHyperlinkedIdentityField
+from .relations import DisorganizedHyperlinkedRelatedField
 
 
-class HyperlinkedSerializerOptions(DRFOptions):
+class DisorganizedHyperlinkedSerializerOptions(HyperlinkedModelSerializerOptions):
     
     def __init__(self, meta):
-        super(HyperlinkedSerializerOptions, self).__init__(meta)
+        super(DisorganizedHyperlinkedSerializerOptions, self).__init__(meta)
         self.encoder = getattr(meta, 'encoder', UrlEncoder())
         
         
-class HyperlinkedModelSerializer(DRFSerializer):
+class DisorganizedHyperlinkedModelSerializer(HyperlinkedModelSerializer):
     
-    _options_class = HyperlinkedSerializerOptions
-    _hyperlink_field_class = HyperlinkedRelatedField
-    _hyperlink_identify_field_class = HyperlinkedIdentityField
+    _options_class = DisorganizedHyperlinkedSerializerOptions
+    _hyperlink_field_class = DisorganizedHyperlinkedRelatedField
+    _hyperlink_identify_field_class = DisorganizedHyperlinkedIdentityField
 
     def get_default_fields(self):
-        fields = super(DRFSerializer, self).get_default_fields()
+        fields = super(HyperlinkedModelSerializer, self).get_default_fields()
 
         if self.opts.view_name is None:
             self.opts.view_name = self._get_default_view_name(self.opts.model)

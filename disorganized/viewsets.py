@@ -5,12 +5,12 @@ viewsets.py
 
 from django.http import Http404
 
-from rest_framework.viewsets import ModelViewSet as DRFViewSet
+from rest_framework.viewsets import ModelViewSet
 
 from .encoder import UrlEncoder
 
 
-class ModelViewSet(DRFViewSet):
+class DisorganizedModelViewSet(ModelViewSet):
     
     def get_object(self, queryset=None):
         if queryset is None:
@@ -22,7 +22,7 @@ class ModelViewSet(DRFViewSet):
             try:
                 encoder = self.serializer_class.Meta.encoder
             except AttributeError:
-                raise AttributeError('ModelViewSet class requires an \'encoder\' option')
+                raise AttributeError('DisorganizedModelViewSet class requires an \'encoder\' option')
             searchfor = encoder.decode_url(pk)
             queryset = queryset.filter(pk=searchfor)
         

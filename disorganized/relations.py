@@ -5,12 +5,12 @@ relations.py
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from rest_framework.relations import HyperlinkedIdentityField as DRFIdentify
-from rest_framework.relations import HyperlinkedRelatedField as DRFRelated
+from rest_framework.relations import HyperlinkedIdentityField
+from rest_framework.relations import HyperlinkedRelatedField
 from rest_framework.reverse import reverse
 
 
-class HyperlinkedRelatedField(DRFRelated):
+class DisorganizedHyperlinkedRelatedField(HyperlinkedRelatedField):
     """
     This field type only works with numeric id fields, and assumes pk
     """
@@ -20,11 +20,11 @@ class HyperlinkedRelatedField(DRFRelated):
             self.encoder = kwargs.pop('encoder')
         except KeyError:
             raise ValueError("NonSequentialHyperlinkedRelatedField field requires 'encoder' kwarg")
-        super(HyperlinkedRelatedField, self).__init__(*args, **kwargs)
+        super(DisorganizedHyperlinkedRelatedField, self).__init__(*args, **kwargs)
         
     def get_url(self, obj, view_name, request, format):
-        lookup_field = getattr(obj, self.lookup_field)
-        kwargs = {self.lookup_field: self.encoder.encode_url(lookup_field)}
+        lookup = getattr(obj, self.lookup_field)
+        kwargs = {self.lookup_field: self.encoder.encode_url(lookup)}
         return reverse(view_name, kwargs=kwargs, request=request, format=format)
 
     def get_object(self, queryset, view_name, view_args, view_kwargs):
@@ -41,7 +41,7 @@ class HyperlinkedRelatedField(DRFRelated):
         return queryset.get(**filter_kwargs)
 
 
-class HyperlinkedIdentityField(DRFIdentify):
+class DisorganizedHyperlinkedIdentityField(HyperlinkedIdentityField):
     """
     This field type only works with numeric id fields, and assumes pk
     """
@@ -50,9 +50,9 @@ class HyperlinkedIdentityField(DRFIdentify):
         try:
             self.encoder = kwargs.pop('encoder')
         except KeyError:
-            msg = "NonSequentialHyperlinkedIdentityField requires 'encoder' argument"
+            msg = "DisorganizedHyperlinkedIdentityField requires 'encoder' argument"
             raise ValueError(msg)
-        super(HyperlinkedIdentityField, self).__init__(*args, **kwargs)
+        super(DisorganizedHyperlinkedIdentityField, self).__init__(*args, **kwargs)
 
     def get_url(self, obj, view_name, request, format):
         lookup_field = getattr(obj, self.lookup_field, None)
