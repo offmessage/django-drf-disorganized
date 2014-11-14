@@ -3,7 +3,7 @@ DRF Disorganized
 ================
 
 It is considered best practice to not have guessable, sequential IDs
-exposed by an API (If you don't believe me, you should read
+exposed by an API (for example see 
 `Auto Increment Considered Harmful <http://joshua.schachter.org/2007/01/autoincrement>`_
 by Joshua Schachter).
 
