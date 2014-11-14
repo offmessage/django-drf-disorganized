@@ -33,6 +33,7 @@ class UrlEncoder(object):
             self.alphabet = alphagen(key, alphabet)
         else:
             self.alphabet = alphabet
+        self.key = key
         self.mask = (1 << self.block_size) - 1
         self.mapping = range(self.block_size)
         self.mapping.reverse()

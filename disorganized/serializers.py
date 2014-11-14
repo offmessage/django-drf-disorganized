@@ -3,6 +3,8 @@ serializers.py
 ==============
 """
 
+from django.core.exceptions import ImproperlyConfigured
+
 from rest_framework.serializers import HyperlinkedModelSerializer
 from rest_framework.serializers import HyperlinkedModelSerializerOptions
 
@@ -14,8 +16,16 @@ from .relations import DisorganizedHyperlinkedRelatedField
 class DisorganizedHyperlinkedSerializerOptions(HyperlinkedModelSerializerOptions):
     
     def __init__(self, meta):
+        lookup_field = getattr(meta, 'lookup_field', None)
+        if lookup_field is not None:
+            msg = ("Disorganized classes do not take a lookup_field "
+                   "parameter, they only work with the default pk.")
+            raise ImproperlyConfigured('Disorganized classes do not take a lookup_field')
         super(DisorganizedHyperlinkedSerializerOptions, self).__init__(meta)
-        self.encoder = getattr(meta, 'encoder', UrlEncoder())
+        self.encoder = getattr(meta, 'encoder', None)
+        if self.encoder is None:
+            encoder_key = self.model._meta.verbose_name
+            self.encoder = UrlEncoder(key=encoder_key)
         
         
 class DisorganizedHyperlinkedModelSerializer(HyperlinkedModelSerializer):
@@ -24,6 +34,9 @@ class DisorganizedHyperlinkedModelSerializer(HyperlinkedModelSerializer):
     _hyperlink_field_class = DisorganizedHyperlinkedRelatedField
     _hyperlink_identify_field_class = DisorganizedHyperlinkedIdentityField
 
+    # XXX For this to actually work we need to dick with get_nested_field
+    # XXX and get_related_field on ModelSerializer
+    # XXX 
     def get_default_fields(self):
         fields = super(HyperlinkedModelSerializer, self).get_default_fields()
 
