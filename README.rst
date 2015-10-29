@@ -2,6 +2,8 @@
 DRF Disorganized
 ================
 
+***Sadly this project has fallen well behind the fantastic progress made on Django Rest Framework and is not compatible with DRF 3.x. Please feel free to use it as a point of reference should you wish to achieve similar results yourself, but this project will no longer do it for you.***
+
 It is considered best practice to not have guessable, sequential IDs
 exposed by an API (for example see 
 `Auto Increment Considered Harmful <http://joshua.schachter.org/2007/01/autoincrement>`_
@@ -36,9 +38,6 @@ The strings are in fact encoded IDs, each repeatably generatable, guaranteed
 unique per serializer, and each Django model gets its own sequence (so the
 curious can't guess URLs of one model by inspecting the URLs of another). And
 best of all the DRF APIs all continue to work as expected.
-
-There is an example Django project using these classes at
-https://github.com/offmessage/drf-non-sequential
 
 It really is as simple as:
 
